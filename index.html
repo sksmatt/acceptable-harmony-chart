@@ -1,0 +1,178 @@
+<style>
+body {
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+  background:#eee;
+}
+
+a {
+  color:#508ef2;
+  text-decoration: none;
+}
+
+label {
+  font-size:0.9em;
+  font-weight:bold;
+  padding: 5px;
+}
+
+select {
+  padding: 5px;
+}
+
+table {
+  width:100%;
+  margin-top:5px;
+  font-size:1em;
+  border-collapse: collapse;
+  background:white;
+  border:2px solid #ddd;
+}
+
+td {
+  border:1px solid #ddd;
+  padding:5px;
+}
+
+tbody td {
+  background:#25a162;
+  font-weight:bold;
+}
+
+thead tr:first-child {
+  background:#333;
+  color:white;
+}
+
+thead tr:nth-child(2) {
+  background:#fff;
+  color:#333;
+}
+
+.not {
+  background:#db5149;
+  font-weight:normal;
+}
+
+.weak {
+  background:#fecd51;
+  font-weight:normal;
+}
+
+ul {
+  padding-left:0;
+  font-size:0.9em;
+}
+
+ul li {
+  line-height:1em;
+}
+
+ul li:before {
+  content:' ';
+  width:1em;
+  height:1em;
+  display:inline-block;
+  margin-right:0.5em;
+}
+
+ul li:first-child:before {
+  background:#25a162;
+}
+
+ul li:nth-child(2):before {
+  background:#fecd51;
+}
+
+ul li:last-child:before {
+  background:#db5149;
+}
+</style>
+<body>
+  <label>Melody Note:</label>
+  <select id="melody"></select>
+  <table id="chart">
+    <thead>
+      <tr>
+        <td>1</td>
+        <td>7</td>
+        <td>b7/#13</td>
+        <td>13/bb7/6</td>
+        <td>b13/#5</td>
+        <td>5</td>
+        <td>#11/b5</td>
+        <td>11</td>
+        <td>3/b11</td>
+        <td>#9/b3</td>
+        <td>9</td>
+        <td>b9</td>
+      </tr>
+      <tr id="root">
+        <td>C</td>
+        <td>Db</td>
+        <td>D</td>
+        <td>Eb</td>
+        <td>E</td>
+        <td>F</td>
+        <td>Gb</td>
+        <td>G</td>
+        <td>Ab</td>
+        <td>A</td>
+        <td>Bb</td>
+        <td>B</td>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  <ul>
+    <li>Strong</li>
+    <li>Weak</li>
+    <li>Unavailable</li>
+  </ul>
+  <p><small>Credits and info @ <a href="https://walkthatbass.wordpress.com">Walk That Bass</a> | <a href="https://www.youtube.com/channel/UCk24OnGLcP5XlTBjZ9WBWvw">YouTube Channel</a></small></p>
+<script id="jsbin-javascript">
+  const roots = root.children,
+        tb = chart.getElementsByTagName('tbody')[0],
+        notes = ['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B',],
+        chords = [
+          ['Maj7',   [0,4,7,11], [11,9,6,4,2]],
+          ['6',      [0,4,7,9],  [11,9,6,4,2]],
+          ['m7',     [0,3,7,10], [10,9,5,3,2]],
+          ['mMaj7',  [0,3,7,11], [11,9,5,3,2]],
+          ['m6',     [0,3,7,9],  [11,9,5,3,2]],
+          ['V7',     [0,4,7,10], [10,9,8,6,4,3,2,1]],
+          ['V7sus',  [0,5,7,10], [10,9,8,5,4,3,2,1]],
+          ['V7+',    [0,4,8,10], [10,9,8,6,4,3,2,1]], 
+          ['Maj7+',  [0,4,8,11], [11,8,6,4,2]],
+          ['m7b5',   [0,3,6,10], [10,8,6,5,3,2]],
+          ['dim',    [0,3,6],    [11,9,8,6,5,3,2]],
+        ];
+
+  chords.forEach(function (chord) {
+    var row = tb.insertRow(tb.rows.length);
+    notes.forEach(function (note, i) {
+      var cell = row.insertCell(i);
+      if (i == 0 || i == 5) {
+        cell.classList = "weak";
+      } else if (chord[2].indexOf(12 - i) === -1) {
+        cell.classList = "not";
+      }
+      cell.appendChild(document.createTextNode(chord[0]));
+    });
+  });
+
+  melody.addEventListener('change', function () {
+    var index = notes.indexOf(this.value);
+    for (var l = 0; l < 12; l++) {
+      var note = index + l;
+      note = note > 11 ? note - 12 : note;
+      roots[l].innerHTML = notes[note];
+    }
+  });
+
+  notes.forEach(function (note) {
+    var option = document.createElement("option");
+    option.text = option.value = note;
+    melody.appendChild(option);
+  });
+</script>
