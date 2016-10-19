@@ -1,8 +1,8 @@
-# Jazz Available Harmonies Chart
+# Acceptable Harmony Chart
 
-Chart that maps strong, weak and unavailable harmonies.
+Maps strong, weak and unavailable harmonies based on the melody note.
 
-[View Demo](http://sksmatt.github.io/jazz-harmony-chart)
+[View Demo](http://sksmatt.github.io/acceptable-harmony-chart)
 
 ## Credit
 
